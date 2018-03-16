@@ -29,6 +29,7 @@
 #include "../hw_abstraction/vga_graphics.h"
 
 #include <stdio.h>
+#include <time.h>
 
 /*--------------------------------------------------------------------------------------*/
 /*                        FSM PRIVATE FUNCTION DECLARATIONS                             */
@@ -69,6 +70,8 @@ static void fsm_action_visualize(void);
  *  @return Void.
  */
 static void fsm_void();
+
+static void get_timestamp(char c[]);
 
 /*--------------------------------------------------------------------------------------*/
 /*                            PRIVATE FUNCTION DECLARATIONS                             */     
@@ -154,8 +157,10 @@ static void fsm_action_init(void){
 static void fsm_action_request_file(void){
 
 	int error;
+	char time[10];
 
-	stream_write(console_out,"[FSM] - Current state is Request File\n",100);
+	get_timestamp(time);
+	stream_write(console_out,strcat(time,"[FSM] - Current state is Request File\n"),100);
 	error = select_file(filename);
 	if(error)
 		fsm_stop = TRUE;
@@ -165,8 +170,10 @@ static void fsm_action_request_file(void){
 static void fsm_action_read_file(void){
 
 	int error;
+	char time[10];
 
-	stream_write(console_out,"[FSM] - Current state is Read File\n",100);
+	get_timestamp(time);
+	stream_write(console_out,strcat(time,"[FSM] - Current state is Read File\n"),100);
 	error = read_file(&template,"TEMPLATE.BMP");
 	if(error)
 		fsm_stop = TRUE;
@@ -177,7 +184,11 @@ static void fsm_action_read_file(void){
 }
 
 static void fsm_action_perform_correlation(void){
-	stream_write(console_out,"[FSM] - Current state is Perform correlation\n",100);
+
+	char time[10];
+
+	get_timestamp(time);
+	stream_write(console_out,strcat(time,"[FSM] - Current state is Perform correlation\n"),100);
 	pos = perform_correlation(img,template);
 	fsm_event_flag = TRUE;
 }
@@ -185,8 +196,10 @@ static void fsm_action_perform_correlation(void){
 static void fsm_action_visualize(void){
 
 	int error;
+	char time[10];
 
-	stream_write(console_out,"[FSM] - Current state is Visualize\n",100);
+	get_timestamp(time);
+	stream_write(console_out,strcat(time,"[FSM] - Current state is Visualize\n"),100);
 	error = visualize(img,template,pos);
 	if(error)
 		fsm_stop = TRUE;
@@ -257,6 +270,17 @@ static void mark_image_position(image_t *img, image_t template, position_t pos){
 				img->pixels[y_pos*img->stride+x_pos] = VISUALIZATION_LINE_COLOR;
 		}
 	}
+}
+
+static void get_timestamp(char c[]){
+
+	time_t rawtime;
+	struct tm * timeinfo;
+
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+
+	sprintf(c,"[%s]",asctime(timeinfo));
 }
 
 /*--------------------------------------------------------------------------------------*/

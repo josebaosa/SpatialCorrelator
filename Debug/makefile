@@ -30,32 +30,32 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 ELFSIZE += \
-spatial_correlation_v3.elf.size \
+spatial_correlation.elf.size \
 
 
 # All Target
 all: pre-build main-build
 
 # Main-build Target
-main-build: spatial_correlation_v3.elf secondary-outputs
+main-build: spatial_correlation.elf secondary-outputs
 
 # Tool invocations
-spatial_correlation_v3.elf: $(OBJS) ../src/lscript.ld $(USER_OBJS)
+spatial_correlation.elf: $(OBJS) ../src/lscript.ld $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM v7 gcc linker'
-	arm-none-eabi-gcc -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -Wl,-build-id=none -specs=Xilinx.spec -Wl,-T -Wl,../src/lscript.ld -L../../zybo_bsp/ps7_cortexa9_0/lib -o "spatial_correlation_v3.elf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard -Wl,-build-id=none -specs=Xilinx.spec -Wl,-T -Wl,../src/lscript.ld -L../../zybo_bsp/ps7_cortexa9_0/lib -o "spatial_correlation.elf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
-spatial_correlation_v3.elf.size: spatial_correlation_v3.elf
+spatial_correlation.elf.size: spatial_correlation.elf
 	@echo 'Invoking: ARM v7 Print Size'
-	arm-none-eabi-size spatial_correlation_v3.elf  |tee "spatial_correlation_v3.elf.size"
+	arm-none-eabi-size spatial_correlation.elf  |tee "spatial_correlation.elf.size"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(EXECUTABLES)$(OBJS)$(S_UPPER_DEPS)$(C_DEPS)$(ELFSIZE) spatial_correlation_v3.elf
+	-$(RM) $(EXECUTABLES)$(OBJS)$(S_UPPER_DEPS)$(C_DEPS)$(ELFSIZE) spatial_correlation.elf
 	-@echo ' '
 
 pre-build:
