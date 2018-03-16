@@ -115,7 +115,7 @@ int get_filenames(char *folder, char filenames[MAXFILES][NAMELENGTH], int *amoun
 
 	// Mount filesystem if needed
 	if(filesystem.fs_type == 0){
-		result = f_mount(&filesystem, "", 0);
+		result = f_mount(&filesystem, FOLDERPATH, 0);
 		if(result != FR_OK)
 			return result;
 	}

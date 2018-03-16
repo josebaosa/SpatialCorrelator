@@ -12,6 +12,7 @@
 
 #define NAMELENGTH 64
 #define MAXFILES 32
+#define FOLDERPATH ""
 
 int file_input_stream(input_stream_t *stream, const char *filename);
 int file_output_stream(output_stream_t *stream, const char *filename);
