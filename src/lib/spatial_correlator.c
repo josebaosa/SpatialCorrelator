@@ -13,6 +13,8 @@
 /*--------------------------------------------------------------------------------------*/
 #include "../lib/spatial_correlator.h"
 
+#include <stdint.h>
+
 /*--------------------------------------------------------------------------------------*/
 /*                            PRIVATE FUNCTION DECLARATIONS                             */     
 /*--------------------------------------------------------------------------------------*/
@@ -22,14 +24,14 @@
  *  @param source Data structure containing the source image.
  *  @return Void.
  */
-void grayscale_parser(int *container, image_t source);
+void grayscale_parser(int32_t *container, image_t source);
 
 /** @brief This function puts the mean of a list of values to zero.
  *  @param values Array of integers containing the values.
  *  @param length The amount of values stored in the array.
  *  @return Void.
  */
-void mean_to_zero(int *values, int length);
+void mean_to_zero(int32_t *values, int32_t length);
 
 /*--------------------------------------------------------------------------------------*/
 /*                                      VARIABLES                                       */
@@ -38,7 +40,7 @@ void mean_to_zero(int *values, int length);
 /*--------------------------------------------------------------------------------------*/
 /*                            PRIVATE FUNCTION DEFINITIONS                              */
 /*--------------------------------------------------------------------------------------*/
-void grayscale_parser(int *container, image_t source){
+void grayscale_parser(int32_t *container, image_t source){
 
 	int num_elements = source.x * source.y;
 	int pos = 0;
@@ -48,7 +50,7 @@ void grayscale_parser(int *container, image_t source){
 	}
 }
 
-void mean_to_zero(int *values, int length){
+void mean_to_zero(int32_t *values, int32_t length){
 
 	int pos = 0;
 	int mean = 0;
@@ -74,14 +76,14 @@ position_t perform_correlation(image_t img, image_t template){
 	int temp_i = 0;
 	int temp_j = 0;
 
-	int x_positions = img.x - template.x;
-	int y_positions = img.y - template.y;
+	int32_t x_positions = img.x - template.x;
+	int32_t y_positions = img.y - template.y;
 
-	int image_adapted[MAXWIDTH*MAXHEIGH];
-	int templ_adapted[MAXWIDTH*MAXHEIGH];
+	int32_t image_adapted[MAXWIDTH*MAXHEIGH];
+	int32_t templ_adapted[MAXWIDTH*MAXHEIGH];
 
-	int sum_values = 0;
-	int max_corr = 0;
+	int32_t sum_values = 0;
+	int32_t max_corr = 0;
 
 	position_t ret_value;
 
